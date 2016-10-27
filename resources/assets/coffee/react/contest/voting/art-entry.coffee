@@ -24,6 +24,7 @@ class Contest.Voting.ArtEntry extends React.Component
     votingOver = moment(@props.contest.voting_ends_at).diff() <= 0
     selected = _.includes @props.selected, @props.entry.id
     showVotes = @props.contest.show_votes
+    titleScreen = @props.contest.id == 5 # TODO: unhardcode
 
     if showVotes
       votePercentage = _.round((@props.entry.results.votes / @props.totalVotes)*100, 2)
@@ -33,6 +34,7 @@ class Contest.Voting.ArtEntry extends React.Component
 
     div style: { backgroundImage: "url('#{@props.entry.preview}')" }, className: [
       'contest-art-list__entry',
+      'contest-art-list__entry--titlescreen' if titleScreen,
       'contest-art-list__entry--result' if showVotes,
       "contest-art-list__entry--placed-#{place}" if showVotes && top3,
       'contest-art-list__entry--smaller' if showVotes && !top3
@@ -40,6 +42,7 @@ class Contest.Voting.ArtEntry extends React.Component
       a {
         className: [
           'js-gallery contest-art-list__thumbnail',
+          'contest-art-list__entry--titlescreen' if titleScreen,
           'contest-art-list__entry--selected' if selected,
           'contest-art-list__thumbnail--placed-2' if showVotes && place == 2,
           'contest-art-list__thumbnail--smaller' if showVotes && place > 2
